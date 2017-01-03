@@ -23,7 +23,7 @@ def expandTag(match):
 def performExpansion(line):
 	return tag.sub(expandTag, line)
 
-def expandAll(line, ttl=9999):
+def expandAll(line, ttl=100):
 	while(None!=tag.search(line) and ttl>0):
 		ttl-=1
 		line=performExpansion(line)
@@ -37,8 +37,8 @@ def addRule(name, opt):
 def mergeRule(name, opt):
 	global rules
 	if(name in rules):
-		opt2=opt.extend(rules[name])
-		rules[name]=opt2
+		opt.extend(rules[name])
+		rules[name]=opt
 	else:
 		rules[name]=opt
 

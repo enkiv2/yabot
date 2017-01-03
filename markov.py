@@ -361,6 +361,8 @@ def handleCmd(source, line):
 	return ""
 
 def handleLine(source, line):
+	if(not line):
+		return ""
 	if(len(line)>0):
 		if(line[0]=="!"):
 			return handleCmd(source, line)
