@@ -31,7 +31,7 @@ templates_enabled=False
 def loadTemplateRuleset(ruleset):
 	global templates_enabled
 	templating.loadMergeRules(ruleset)
-	if("#origin#" in templating.rules):
+	if("origin" in templating.rules):
 		templates_enabled=True
 def templateResponse(line):
 	if(templates_enabled):
