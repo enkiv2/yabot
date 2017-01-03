@@ -26,6 +26,18 @@ except:
 
 from eliza import elizaResponse
 
+import templating
+templates_enabled=False
+def loadTemplateRuleset(ruleset):
+	global templates_enabled
+	templating.loadMergeRules(ruleset)
+	if("#origin#" in templating.rules):
+		templates_enabled=True
+def templateResponse(line):
+	if(templates_enabled):
+		return templating.expandAll("#origin#")
+	return ""
+
 def initialize():
 	global nextLines, nextPhrases, nextWords
 	if(len(nextWords)<MAX_MARKOV_LEVEL):
@@ -323,6 +335,7 @@ def respondLine(line):
 	sys.stderr.write("\n\nInput: \""+line+"\"\n")
 	candidates=[]
 	candidates.append(elizaResponse(line))
+	candidates.append(templateResponse(line))
 	markovCandidates2=[]
 	for mode in ["min", "max", "first", "last", "avg", "avg2"]:
 		lineClass=score(mode, line)
