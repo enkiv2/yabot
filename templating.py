@@ -26,7 +26,7 @@ def performExpansion(line):
 def expandAll(line, ttl=9999):
 	while(None!=tag.search(line) and ttl>0):
 		ttl-=1
-		line=expandForth(performExpansion(line))
+		line=performExpansion(line)
 		#print("Iter: "+line)
 	return line
 
@@ -53,36 +53,6 @@ def loadRules(fname):
 	global rules
 	with open(fname, "r") as f:
 		rules=json.load(f)
-
-
-def expandForth(line):
-	return line
-try:
-	import templateScripting as forth
-	forthSym=re.compile("$[a-zA-Z0-9]*")
-	forthSubst=re.compile("$$[^$]*$")
-	def evalWrap(match):
-		line=match.string[match.pos:match.end()]
-		if line[0]!="$":
-			return line
-		sys.stderr.write("Line: "+line+"\n")
-		sys.stderr.flush()
-		if(line[1]=="$"):
-			line=line[2:-1]
-		else:
-			line=line[1:]
-		ret=forth.evaluate(line)
-		if(ret==None):
-			ret=" ".join(forth.getStack())
-		ret=" ".join(forth.getStack())
-		return ret
-	def expandForth(line):
-		if(line.find("$")>=0):
-			return line
-		return forthSym.sub(evalWrap, forthSubst.sub(evalWrap, line))
-except:
-	sys.sterr.write("Could not import templateScripting\n")
-	sys.stderr.flush()
 
 
 def main():
