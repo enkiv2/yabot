@@ -38,9 +38,7 @@ def mergeRule(name, opt):
 	global rules
 	if(name in rules):
 		opt2=opt
-		for item in rules[name]:
-			if(not item in opt2):
-				opt2.append(item)
+		opt2.extend(rules[name])
 		rules[name]=opt2
 	else:
 		rules[name]=opt
