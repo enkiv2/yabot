@@ -11,10 +11,10 @@ random=Random()
 
 rules={}
 
-tag=re.compile("#[^# ]*#")
+tag=re.compile("#[a-zA-Z0-9]*#")
 
 def expandTag(match):
-	tname=match.string[match.pos+1:match.end()-1]
+	tname=match.string[match.start()+1:match.end()-1]
 	if(tname in rules):
 		rule=rules[tname]
 		return random.choice(rule)
@@ -23,8 +23,8 @@ def expandTag(match):
 def performExpansion(line):
 	return tag.sub(expandTag, line)
 
-def expandAll(line, ttl=100):
-	while(None!=tag.search(line) and ttl>0):
+def expandAll(line, ttl=999):
+	while(ttl>0 and len(line)<140 and None!=tag.search(line)):
 		ttl-=1
 		line=performExpansion(line)
 		#print("Iter: "+line)
@@ -37,8 +37,11 @@ def addRule(name, opt):
 def mergeRule(name, opt):
 	global rules
 	if(name in rules):
-		opt.extend(rules[name])
-		rules[name]=opt
+		opt2=opt
+		for item in rules[name]:
+			if(not item in opt2):
+				opt2.append(item)
+		rules[name]=opt2
 	else:
 		rules[name]=opt
 
