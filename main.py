@@ -141,7 +141,23 @@ class YaBot(ircbot.SingleServerIRCBot):
 				self.owners.append(args[1])
 				self.say(c, "User "+args[1]+" added to owners list.")
 			except:
-				self.say(c, "Usage: !addowner")
+				self.say(c, "Usage: !addowner nick")
+		elif (args[0]=="!rmtemplate"):
+			try:
+				if(args[1] in templates):
+					templates.remove(args[1])
+					self.say(c, "Template "+args[1]+" removed.")
+				else:
+					self.say(c, "Filename "+args[1]+" is not in template list.")
+			except:
+				self.say(c, "Usage: !rmtemplate filename")
+		elif (args[0]=="!addtemplate"):
+			try:
+				templates.append(args[1])
+				markov.loadTemplateRuleset(args[1])
+				self.say(c, "Filename "+args[1]+" added to templates list.")
+			except:
+				self.say(c, "Usage: !addtemplate filename")
 		elif(args[0]=="!rejoin"):
 			self.rejoin()
 		elif(args[0]=="!nick"):
@@ -155,6 +171,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 			f.write("owners=[\""+("\",\"".join(self.owners))+"\"]\n")
 			f.write("channels=[\""+("\",\"".join(self.channelList))+"\"]\n")
 			f.write("nick=\""+self._nickname+"\"\n")
+			f.write("templates=["+("\",\"".join(templates))+"\"]\n")
 			f.flush()
 			f.close()
 			self.say(c, "Config saved!")
