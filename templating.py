@@ -2,13 +2,22 @@
 
 import sys
 
-global rules, random
+global rules, random, grammar
 
 import re
 import json
 from random import Random
 random=Random()
 
+use_tracery=False
+
+try:
+	import tracery
+	from tracery.modifiers import base_english
+	use_tracery=True
+except:
+	use_tracery=False
+grammar={}
 rules={}
 
 tag=re.compile("#[a-zA-Z0-9]*#")
@@ -24,6 +33,9 @@ def performExpansion(line):
 	return tag.sub(expandTag, line)
 
 def expandAll(line, ttl=999):
+	global rules, grammar
+	if(use_tracery):
+		return grammar.flatten(line)
 	while(ttl>0 and len(line)<140 and None!=tag.search(line)):
 		ttl-=1
 		line=performExpansion(line)
@@ -44,16 +56,22 @@ def mergeRule(name, opt):
 		rules[name]=opt
 
 def loadMergeRules(fname):
-	global rules
+	global rules, grammar
 	with open(fname, "r") as f:
 		rules2=json.load(f)
 		for rule in rules2:
 			mergeRule(rule, rules2[rule])
+	if(use_tracery):
+		grammar=tracery.Grammar(rules)
+		grammar.add_modifiers(base_english)
 
 def loadRules(fname):
-	global rules
+	global rules, grammar
 	with open(fname, "r") as f:
 		rules=json.load(f)
+	if(use_tracery):
+		grammar=tracery.Grammar(rules)
+		grammar.add_modifiers(base_english)
 
 
 def main():
