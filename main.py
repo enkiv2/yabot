@@ -163,6 +163,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 		elif(args[0]=="!nick"):
 			try:
 				self.connection.nick(args[1])
+				self._nickname=args[1]
 			except:
 				self.say(c, "Usage: !nick name")
 		elif(args[0]=="!saveconfig"):
@@ -171,7 +172,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 			f.write("owners=[\""+("\",\"".join(self.owners))+"\"]\n")
 			f.write("channels=[\""+("\",\"".join(self.channelList))+"\"]\n")
 			f.write("nick=\""+self._nickname+"\"\n")
-			f.write("templates=["+("\",\"".join(templates))+"\"]\n")
+			f.write("templates=[\""+("\",\"".join(templates))+"\"]\n")
 			f.flush()
 			f.close()
 			self.say(c, "Config saved!")
