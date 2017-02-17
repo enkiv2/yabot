@@ -86,7 +86,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 			else:
 				self.die()
 			os.exit(0)
-		elif (args[0]=="!save"):
+		elif (args[0]=="!save" and len(args)==1):
 			self.say(c, "Saving...")
 			markov.save()
 			self.say(c, "Saved!")
