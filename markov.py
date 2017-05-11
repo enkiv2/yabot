@@ -356,7 +356,7 @@ def respondLine(line):
 	#candidates.append(random.choice(markovCandidates2))
 	candidates.append(random.choice(candidates2))
 	sys.stderr.write("\nCandidates: \""+("\",\"".join(candidates))+"\"\n\n\n")
-	return disarticulate(random.choice(candidates))
+	return disarticulate(random.choice(candidates), 1)
 
 def handleCmd(source, line):
 	chunks=line.split()

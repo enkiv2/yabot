@@ -17,7 +17,7 @@ def disarticulate(s, rate=15):
 		ret.append(word)
 		if(random.choice(range(0, 100))<rate):
 			ret.append(grammar.flatten("#origin#"))
-	return typoize(" ".join(ret))
+	return typoize(" ".join(ret), 1)
 
 if __name__=="__main__":
 	import sys
