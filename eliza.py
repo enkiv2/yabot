@@ -432,6 +432,15 @@ default_responses = [
 	"Go on",
 	"Do you feel strongly about discussing such things?",
 	]
+withering_criticisms = [
+	"How foolish.",
+	"How gauche.",
+	"How lame.",
+	"Dumb.",
+	"Lame.",
+	"HAHAHA no."
+	]
+default_responses.extend(withering_criticisms)
 
 def elizaResponse(line):
 	rules_list = []
