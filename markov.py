@@ -339,6 +339,7 @@ def respondLine(line):
 	candidates.append(anxietyResponse(line))
 	candidates.append(templateResponse(line))
 	markovCandidates2=[]
+	candidates2=[]
 	for mode in ["min", "max", "first", "last", "avg", "avg2"]:
 		lineClass=score(mode, line)
 		markovCandidates=[]
@@ -349,9 +350,10 @@ def respondLine(line):
 			markovCandidates.append(traverseMarkov(seed, level+1))
 		sys.stderr.write("Markov candidates: \""+("\",\"".join(markovCandidates))+"\"\n")
 		markovCandidates2.append(random.choice(markovCandidates))
-		candidates.append(traversePhrases(lineClass, mode))
-		candidates.append(traverseLines(lineClass, mode))
-	candidates.append(random.choice(markovCandidates2))
+		candidates2.append(traversePhrases(lineClass, mode))
+		candidates2.append(traverseLines(lineClass, mode))
+	#candidates.append(random.choice(markovCandidates2))
+	candidates.append(random.choice(candidates2))
 	sys.stderr.write("\nCandidates: \""+("\",\"".join(candidates))+"\"\n\n\n")
 	return random.choice(candidates)
 
