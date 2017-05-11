@@ -190,11 +190,12 @@ class YaBot(ircbot.SingleServerIRCBot):
 			else:
 				self.say(c, "Available commands are: quit, save, load, regenLines, replyrate, tagfrequency, join, part, rejoin, nick, say, addowner, rmowner, saveconfig, and help")
 	def say(self, c, resp):
+		time.sleep(1)
 		for line in resp.split("\n"):
-			time.sleep(1)
 			try:
 				self.logAndPrint("->\t"+c+"\t<"+self._nickname+"> "+line)
 				self.connection.privmsg(c, line)
+				time.sleep(2)
 			except:
 				print("Could not send message!")
 				print(sys.exc_info())
