@@ -25,6 +25,7 @@ except:
 	import pickle
 
 from eliza import elizaResponse
+from anxietyGenerator import anxietyResponse
 
 import templating
 templates_enabled=False
@@ -335,6 +336,7 @@ def respondLine(line):
 	sys.stderr.write("\n\nInput: \""+line+"\"\n")
 	candidates=[]
 	candidates.append(elizaResponse(line))
+	candidates.append(anxietyResponse(line))
 	candidates.append(templateResponse(line))
 	markovCandidates2=[]
 	for mode in ["min", "max", "first", "last", "avg", "avg2"]:

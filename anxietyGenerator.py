@@ -222,13 +222,6 @@ def make_reply(reply):
 def compose(anxiety, reply):
 	return ".".join(map(string.capitalize, string.split(((" ".join([contemplatives(),anxiety]))+".\n\n"+(" ".join([interrogatories(), offers()]))+" \""+anxiety+"\" -- "+(" ".join([make_reply(reply), returns(), interrogatories(), returns(), call_to_action()]))), "."))).replace(" i ", " I ").replace("\ni ", "\nI ")
 
-if(len(sys.argv)>1):
-	anxieties=sys.argv[1:]
-else:
-	anxieties=oblique
+def anxietyResponse(line):
+	return compose(random.choice(anxieties), line)
 
-print(compose(random.choice(anxieties), None))
-reply=raw_input("> ")
-while reply!="":
-	print(compose(random.choice(anxieties), reply))
-	reply=raw_input("> ")
