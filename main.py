@@ -69,7 +69,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 				print(sys.exc_info())
 			if(resp and resp!=procLine):
 				if not privmsg:
-					if(random.choice(range(0, TAG_FREQUENCY))==0):
+					if(random.choice(range(0, TAG_FREQUENCY))==0 or nick in self.trolls):
 						resp=nick+": "+resp
 				self.say(chan, resp)
 	def handleCmd(self, c, nick, line):
