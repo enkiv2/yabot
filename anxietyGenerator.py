@@ -222,6 +222,9 @@ def make_reply(reply):
 def compose(anxiety, reply):
 	return ".".join(map(string.capitalize, string.split(((" ".join([contemplatives(),anxiety]))+".\n\n"+(" ".join([interrogatories(), offers()]))+" \""+anxiety+"\" -- "+(" ".join([make_reply(reply), returns(), interrogatories(), returns(), call_to_action()]))), "."))).replace(" i ", " I ").replace("\ni ", "\nI ")
 
+anxieties=[]
+
 def anxietyResponse(line):
+	anxieties.append(line)
 	return compose(random.choice(anxieties), line)
 
