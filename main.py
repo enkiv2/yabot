@@ -16,6 +16,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 	def __init__(self, server_list, nickname, realname, owners, channels, password=""):
 		ircbot.SingleServerIRCBot.__init__(self, server_list, nickname, realname)
 		self.owners=owners
+		self.trolls=[]
 		self.channelList=channels
 		self.password=password
 		self.logfilename="yabot.log"
@@ -56,12 +57,12 @@ class YaBot(ircbot.SingleServerIRCBot):
 				if(markov.replyrate and random.choice(range(0, markov.replyrate))==0):
 					resp=markov.respondLine(procLine)
 				if(not resp):
-					if(line.find(self._nickname)>=0 or privmsg):
+					if(line.find(self._nickname)>=0 or privmsg or nick in self.trolls):
 						resp=markov.respondLine(procLine)
 						if(not resp):
 							resp=eliza.elizaResponse(procLine)
 				else:
-					if(random.choice(range(1, 100))==0):
+					if(random.choice(range(1, 100))==0 or nick in self.trolls):
 						markov.processLine(chan, eliza.elizaResponse(line))
 			except:
 				print("Error in handleLine")
@@ -142,6 +143,21 @@ class YaBot(ircbot.SingleServerIRCBot):
 				self.say(c, "User "+args[1]+" added to owners list.")
 			except:
 				self.say(c, "Usage: !addowner nick")
+		elif (args[0]=="!rmtroll"):
+			try:
+				if(args[1] in self.trolls):
+					self.trolls.remove(args[1])
+					self.say(c, "Owner "+args[1]+" removed.")
+				else:
+					self.say(c, "User "+args[1]+" is not an troll.")
+			except:
+				self.say(c, "Usage: !rmtroll nick")
+		elif (args[0]=="!addtroll"):
+			try:
+				self.trolls.append(args[1])
+				self.say(c, "User "+args[1]+" added to trolls list.")
+			except:
+				self.say(c, "Usage: !addtroll nick")
 		elif (args[0]=="!rmtemplate"):
 			try:
 				if(args[1] in templates):
