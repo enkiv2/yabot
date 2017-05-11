@@ -147,7 +147,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 			try:
 				if(args[1] in self.trolls):
 					self.trolls.remove(args[1])
-					self.say(c, "Owner "+args[1]+" removed.")
+					self.say(c, "Troll "+args[1]+" removed.")
 				else:
 					self.say(c, "User "+args[1]+" is not an troll.")
 			except:
@@ -209,10 +209,10 @@ class YaBot(ircbot.SingleServerIRCBot):
 		time.sleep(1)
 		for line in resp.split("\n"):
 			try:
-				if(len(line)>140):
-					while len(line)>140:
-						pre=line[:140]
-						line=line[141:]
+				if(len(line)>500):
+					while len(line)>500:
+						pre=line[:500]
+						line=line[500:]
 						self.logAndPrint("->\t"+c+"\t<"+self._nickname+"> "+pre)
 						self.connection.privmsg(c, pre)
 						time.sleep(1)
