@@ -193,6 +193,13 @@ class YaBot(ircbot.SingleServerIRCBot):
 		time.sleep(1)
 		for line in resp.split("\n"):
 			try:
+				if(len(line)>140):
+					while len(line)>140:
+						pre=line[:140]
+						line=line[141:]
+						self.logAndPrint("->\t"+c+"\t<"+self._nickname+"> "+pre)
+						self.connection.privmsg(c, pre)
+						time.sleep(1)
 				self.logAndPrint("->\t"+c+"\t<"+self._nickname+"> "+line)
 				self.connection.privmsg(c, line)
 				time.sleep(2)
