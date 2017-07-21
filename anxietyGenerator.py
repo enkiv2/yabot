@@ -224,6 +224,7 @@ def compose(anxiety, reply):
 	return ".".join(map(string.capitalize, string.split(((" ".join([contemplatives(),anxiety]))+".\n\n"+(" ".join([interrogatories(), offers()]))+" \""+anxiety+"\" -- "+(" ".join([make_reply(reply), returns(), interrogatories(), returns(), call_to_action()]))), "."))).replace(" i ", " I ").replace("\ni ", "\nI ")
 
 anxieties={"*":[]}
+anxieties["*"].extend(oblique)
 try:
 	with open("anxieties.pickle", 'r') as f:
 		anxieties=cPickle.load(f)
@@ -245,5 +246,5 @@ def anxietyResponse(line, source="*"):
 			cPickle.dump(anxieties, f)
 			f.flush()
 		os.rename("anxieties.pickle.part", "anxieties.pickle")
-	return compose(random.choice(anxieties[source]), line)
+	return compose(random.choice([random.choice(anxieties[source]), random.choice(anxieties[source]), random.choice(anxieties["*"])]), line)
 
