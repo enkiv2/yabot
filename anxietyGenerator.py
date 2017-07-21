@@ -224,8 +224,11 @@ def compose(anxiety, reply):
 	return ".".join(map(string.capitalize, string.split(((" ".join([contemplatives(),anxiety]))+".\n\n"+(" ".join([interrogatories(), offers()]))+" \""+anxiety+"\" -- "+(" ".join([make_reply(reply), returns(), interrogatories(), returns(), call_to_action()]))), "."))).replace(" i ", " I ").replace("\ni ", "\nI ")
 
 anxieties={}
-with open("anxieties.pickle", 'r') as f:
-	anxieties=cPickle.load(f)
+try:
+	with open("anxieties.pickle", 'r') as f:
+		anxieties=cPickle.load(f)
+except:
+	pass
 
 def anxietyResponse(line, source="*"):
 	if not source in anxieties:
