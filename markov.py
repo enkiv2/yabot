@@ -215,7 +215,7 @@ def scoreMulti(phrase):
 	state["avg"]=deltaLW
 	return state
 
-def processLine(source, line, regen=False):
+def processLine(source, line, nick="*", regen=False):
 	global lineList, nextLines, lineScores, nextPhrases
 	if(not regen):
 		processWords(line)
@@ -333,11 +333,11 @@ def traverseLines(seed, mode):
 		return ""	# hard mode
 	return random.choice(nextLines[mode][seed])
 
-def respondLine(line):
+def respondLine(line, source="*"):
 	sys.stderr.write("\n\nInput: \""+line+"\"\n")
 	candidates=[]
 	candidates.append(elizaResponse(line))
-	candidates.append(anxietyResponse(line))
+	candidates.append(anxietyResponse(line, source))
 	candidates.append(templateResponse(line))
 	markovCandidates2=[]
 	candidates2=[]
@@ -365,16 +365,16 @@ def handleCmd(source, line):
 		return "Saved."
 	return ""
 
-def handleLine(source, line):
+def handleLine(source, line, nick="*"):
 	if(not line):
 		return ""
 	if(len(line)>0):
 		if(line[0]=="!"):
 			return handleCmd(source, line)
 		else:
-			processLine(source, line)
+			processLine(source, line, nick)
 			if(replyrate and random.choice(range(0, replyrate))==0):
-				return respondLine(line)
+				return respondLine(line, nick)
 			return ""
 
 def main():
@@ -383,7 +383,7 @@ def main():
 	try:
 		line=raw_input("> ")
 		while(line!="!quit"):
-			resp=handleLine("stdin", line)
+			resp=handleLine("stdin", line, "stdin")
 			if(resp):
 				print(resp)
 			line=raw_input("> ")

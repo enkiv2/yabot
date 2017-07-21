@@ -3,6 +3,7 @@
 from random import Random
 random = Random()
 import sys, string
+import cPickle
 
 def interrogatories():
 	return random.choice([
@@ -222,9 +223,23 @@ def make_reply(reply):
 def compose(anxiety, reply):
 	return ".".join(map(string.capitalize, string.split(((" ".join([contemplatives(),anxiety]))+".\n\n"+(" ".join([interrogatories(), offers()]))+" \""+anxiety+"\" -- "+(" ".join([make_reply(reply), returns(), interrogatories(), returns(), call_to_action()]))), "."))).replace(" i ", " I ").replace("\ni ", "\nI ")
 
-anxieties=[]
+anxieties={}
+with open("anxieties.pickle", 'r') as f:
+	anxieties=cPickle.load(f)
 
-def anxietyResponse(line):
-	anxieties.append(line)
-	return compose(random.choice(anxieties), line)
+def anxietyResponse(line, source="*"):
+	if not source in anxieties:
+		anxieties[source]=[]
+	anxieties[source].append(line)
+	if(source!="*"):
+		anxieties["*"].append(line)
+	if(len(anxieties[source])>1000):
+		anxieties[source]=anxieties[source][len(anxieties[source])-100:]
+	if(len(anxieties["*"])>1000):
+		anxieties["*"]=anxieties["*"][len(anxieties["*"]):]
+	with open("anxieties.pickle.part", 'w') as f:
+		cPickle.dump(anxieties, f)
+		f.flush()
+	os.rename("anxieties.pickle.part", "anxieties.pickle")
+	return compose(random.choice(anxieties[source]), line)
 
