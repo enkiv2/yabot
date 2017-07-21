@@ -237,9 +237,10 @@ def anxietyResponse(line, source="*"):
 		anxieties[source]=random.sample(anxieties[source], 100)
 	if(len(anxieties["*"])>1000):
 		anxieties["*"]=random.sample(anxieties["*"], 100)
-	with open("anxieties.pickle.part", 'w') as f:
-		cPickle.dump(anxieties, f)
-		f.flush()
-	os.rename("anxieties.pickle.part", "anxieties.pickle")
+	if(random.randint(0, 100)>=100):
+		with open("anxieties.pickle.part", 'w') as f:
+			cPickle.dump(anxieties, f)
+			f.flush()
+		os.rename("anxieties.pickle.part", "anxieties.pickle")
 	return compose(random.choice(anxieties[source]), line)
 
