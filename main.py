@@ -219,6 +219,12 @@ class YaBot(ircbot.SingleServerIRCBot):
 				self.logAndPrint("->\t"+c+"\t<"+self._nickname+"> "+line)
 				self.connection.privmsg(c, line)
 				time.sleep(2)
+			except irclib.ServerNotConnectedError as err:
+				print(str(err))
+				self.autosave()
+				self.saveconfig()
+				time.sleep(30)
+				self.start()
 			except:
 				print("Could not send message!")
 				print(sys.exc_info())
