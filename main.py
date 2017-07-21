@@ -55,10 +55,10 @@ class YaBot(ircbot.SingleServerIRCBot):
 					procLine=" ".join(line.split()[1:])
 				markov.processLine(chan, procLine, nick=nick)
 				if(markov.replyrate and random.choice(range(0, markov.replyrate))==0):
-					resp=markov.respondLine(procLine)
+					resp=markov.respondLine(procLine, source=nick)
 				if(not resp):
 					if(line.find(self._nickname)>=0 or privmsg or nick in self.trolls):
-						resp=markov.respondLine(procLine, nick=nick)
+						resp=markov.respondLine(procLine, source=nick)
 						if(not resp):
 							resp=eliza.elizaResponse(procLine)
 				else:

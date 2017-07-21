@@ -223,7 +223,7 @@ def make_reply(reply):
 def compose(anxiety, reply):
 	return ".".join(map(string.capitalize, string.split(((" ".join([contemplatives(),anxiety]))+".\n\n"+(" ".join([interrogatories(), offers()]))+" \""+anxiety+"\" -- "+(" ".join([make_reply(reply), returns(), interrogatories(), returns(), call_to_action()]))), "."))).replace(" i ", " I ").replace("\ni ", "\nI ")
 
-anxieties={}
+anxieties={"*":[]}
 try:
 	with open("anxieties.pickle", 'r') as f:
 		anxieties=cPickle.load(f)
