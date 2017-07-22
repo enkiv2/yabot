@@ -2,7 +2,7 @@
 
 from random import Random
 random = Random()
-import sys, string
+import os, sys, string
 import cPickle
 
 def interrogatories():
@@ -231,7 +231,7 @@ try:
 except:
 	pass
 
-def anxietyResponse(line, source="*"):
+def process(line, source):
 	if not source in anxieties:
 		anxieties[source]=[]
 	anxieties[source].append(line)
@@ -241,10 +241,14 @@ def anxietyResponse(line, source="*"):
 		anxieties[source]=random.sample(anxieties[source], 100)
 	if(len(anxieties["*"])>1000):
 		anxieties["*"]=random.sample(anxieties["*"], 100)
-	if(random.randint(0, 100)>=100):
+	if(random.randint(0, 1000)==0):
 		with open("anxieties.pickle.part", 'w') as f:
 			cPickle.dump(anxieties, f)
 			f.flush()
 		os.rename("anxieties.pickle.part", "anxieties.pickle")
+
+def anxietyResponse(line, source="*"):
+	if not source in anxieties:
+		anxieties[source]=[]
 	return compose(random.choice([random.choice(anxieties[source]), random.choice(anxieties[source]), random.choice(anxieties["*"])]), line)
 

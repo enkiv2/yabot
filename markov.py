@@ -26,6 +26,7 @@ except:
 
 from eliza import elizaResponse
 from anxietyGenerator import anxietyResponse
+import anxietyGenerator
 from disarticulate import disarticulate
 
 import templating
@@ -217,6 +218,8 @@ def scoreMulti(phrase):
 
 def processLine(source, line, nick="*", regen=False):
 	global lineList, nextLines, lineScores, nextPhrases
+	anxietyGenerator.process(line, source)
+	anxietyGenerator.process(line, nick)
 	if(not regen):
 		processWords(line)
 	if not (source in lineList) or not (source in lineScores):
