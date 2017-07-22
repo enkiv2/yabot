@@ -19,7 +19,7 @@ import copy
 
 from random import Random
 random=Random()
-import sys, os, string, json
+import sys, os, string, json, time
 try:
 	import cPickle
 	pickle=cPickle

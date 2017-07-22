@@ -234,6 +234,18 @@ except:
 def process(line, source):
 	if not source in anxieties:
 		anxieties[source]=[]
+	if(line.find("want to")>=0):
+		line=line[line.find("want to")+7:]
+	elif(line.find("wanna")>=0):
+		line=line[line.find("wanna")+5:]
+	elif(line.find("will")>=0):
+		line=line[line.find("will")+4:]
+	elif(line.find("i'll")>=0):
+		line=line[line.find("i'll")+4:]
+	elif(line.find("I'll")>=0):
+		line=line[line.find("I'll")+4:]
+	else:
+		return
 	anxieties[source].append(line)
 	if(source!="*"):
 		anxieties["*"].append(line)
