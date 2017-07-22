@@ -36,11 +36,11 @@ class YaBot(ircbot.SingleServerIRCBot):
 		markov.save()
 		print("Regenerating line metrics...")
 		markov.regenerateLineHandling()
+		print("Saved")
 	def autosave(self):
 		print("Autosaving log...")
 		self.logfile.flush()
-		t=threading.Thread(Target=self.save_helper)
-		t.daemon=True
+		t=threading.Thread(target=self.save_helper)
 		t.start()
 	def processAndReply(self, c, e, privmsg=False):
 		line=e.arguments()[0]
@@ -97,8 +97,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 			os.exit(0)
 		elif (args[0]=="!save" and len(args)==1):
 			self.say(c, "Saving...")
-			markov.save()
-			self.say(c, "Saved!")
+			self.autosave()
 		elif (args[0]=="!load"):
 			self.say(c, "Loading...")
 			markov.load()
