@@ -356,7 +356,7 @@ def respondLine(line, source="*"):
 		markovCandidates2.append(random.choice(markovCandidates))
 		candidates2.append(traversePhrases(lineClass, mode))
 		candidates2.append(traverseLines(lineClass, mode))
-	#candidates.append(random.choice(markovCandidates2))
+	candidates.append(random.choice(markovCandidates2))
 	candidates.append(random.choice(candidates2))
 	sys.stderr.write("\nCandidates: \""+("\",\"".join(candidates))+"\"\n\n\n")
 	return disarticulate(random.choice(candidates), 1)
