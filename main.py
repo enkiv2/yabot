@@ -5,6 +5,7 @@ import eliza
 import ircbot
 
 import time, sys, os
+import threading
 
 from random import Random
 random=Random()
@@ -30,13 +31,17 @@ class YaBot(ircbot.SingleServerIRCBot):
 		self.logfile.write(line+"\n")
 		if(random.choice(range(0, 200))==0):
 			self.autosave()
-	def autosave(self):
-		print("Autosaving log...")
-		self.logfile.flush()
+	def save_helper(self):
 		print("Autosaving markov...")
 		markov.save()
 		print("Regenerating line metrics...")
 		markov.regenerateLineHandling()
+	def autosave(self):
+		print("Autosaving log...")
+		self.logfile.flush()
+		t=threading.Thread(Target=self.save_helper)
+		t.daemon=True
+		t.start()
 	def processAndReply(self, c, e, privmsg=False):
 		line=e.arguments()[0]
 		source=e.source()
@@ -80,6 +85,9 @@ class YaBot(ircbot.SingleServerIRCBot):
 		if(args[0]=="!quit"):
 			self.say(c, "Saving...")
 			self.autosave()
+			time.sleep(1)
+			while markov.currently_saving:
+				time.sleep(1)
 			self.say(c, "Saved!\nByebye!")
 			self.logfile.close()
 			if(len(args)>1):
@@ -246,6 +254,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 			for template in templates:
 				self.logAndPrint("-- Loading template "+str(template))
 				markov.loadTemplateRuleset(template)
+		self.logAndPrint("-- Loading markov model")
 		markov.load()
 		self.rejoin()
 	def on_nicknameinuse(self, c, e):

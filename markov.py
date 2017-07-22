@@ -14,6 +14,9 @@ nextLines={}		# first level idx is one of ["first", "last", "min", "max", "avg",
 nextPhrases={}		# first level idx is one of ["first", "last", "min", "max", "avg", "avg2"]
 nextWords=[]		# index n is (n-1) order markov model
 
+currently_saving=False
+import copy
+
 from random import Random
 random=Random()
 import sys, os, string, json
@@ -55,17 +58,22 @@ def initialize():
 			nextPhrases[i][""]=[""]
 
 def save():
+	global currently_saving
+	while currently_saving:
+		time.sleep(10)
+	currently_saving=True
 	state={}
-	state["wordTotal"]=wordTotal
-	state["wordFrequencies"]=wordFrequencies
-	state["lineList"]=lineList
-	state["nextWords"]=nextWords
+	state["wordTotal"]=copy.deepcopy(wordTotal)
+	state["wordFrequencies"]=copy.deepcopy(wordFrequencies)
+	state["lineList"]=copy.deepcopy(lineList)
+	state["nextWords"]=copy.deepcopy(nextWords)
 	# We do not load or save nextLines or nextPhrases because we should regenerate these on reload
 	f=open("yabot_state.pickle.part", "w")
 	pickle.dump(state, f)
 	f.close()
 	os.rename("yabot_state.pickle.part", "yabot_state.pickle")
 	regenerateLineHandling()
+	currently_saving=False
 
 def load():
 	global wordTotal, wordFrequencies, lineList, nextWords
