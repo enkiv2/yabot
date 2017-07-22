@@ -185,6 +185,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 		elif(args[0]=="!saveconfig"):
 			self.say(c, "Saving config...")
 			f=open("config.py", "a")
+			f.write("# Automatic config save on "+time.asctime()+"\n").
 			f.write("owners=[\""+("\",\"".join(self.owners))+"\"]\n")
 			f.write("channels=[\""+("\",\"".join(self.channelList))+"\"]\n")
 			f.write("nick=\""+self._nickname+"\"\n")
