@@ -280,7 +280,8 @@ def main():
 	bot=YaBot(servers, nick, realname, owners, channels, password)
 	try:
 		bot.start()
-	except:
+	except Exception as e:
+                print(e)
 		os.rename("yabot_state.pickle", "yabot_state.pickle."+str(time.time()))
 		markov.save()
 if __name__=="__main__":
