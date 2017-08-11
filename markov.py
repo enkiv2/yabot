@@ -59,8 +59,10 @@ def initialize():
 
 def save():
 	global currently_saving
-	while currently_saving:
+        tries=0
+	while currently_saving and tries<60:
 		time.sleep(10)
+                tries+=1
 	currently_saving=True
 	state={}
 	state["wordTotal"]=copy.deepcopy(wordTotal)
