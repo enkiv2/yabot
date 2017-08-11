@@ -23,6 +23,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 		self.logfilename="yabot.log"
 		self.logfile=open(self.logfilename, "a")
                 self.starttime=time.time()
+		self.periodicReconnect()
 	def on_pubmsg(self, c, e):
 		self.processAndReply(c, e)
 	def on_privmsg(self, c, e):	
@@ -33,6 +34,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 		if(random.choice(range(0, 200))==0):
 			self.autosave()
 	def periodicReconnectHelper(self):
+		time.sleep(100)
 		while true:
 			self.autosave()
 			time.sleep(60*60*12)
