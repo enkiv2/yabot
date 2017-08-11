@@ -35,7 +35,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 			self.autosave()
 	def periodicReconnectHelper(self):
 		time.sleep(100)
-		while true:
+		while True:
 			self.autosave()
 			time.sleep(60*60*12)
 			self.jump_server()
