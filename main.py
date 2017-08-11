@@ -22,6 +22,7 @@ class YaBot(ircbot.SingleServerIRCBot):
 		self.password=password
 		self.logfilename="yabot.log"
 		self.logfile=open(self.logfilename, "a")
+                self.starttime=time.time()
 	def on_pubmsg(self, c, e):
 		self.processAndReply(c, e)
 	def on_privmsg(self, c, e):	
@@ -31,6 +32,14 @@ class YaBot(ircbot.SingleServerIRCBot):
 		self.logfile.write(line+"\n")
 		if(random.choice(range(0, 200))==0):
 			self.autosave()
+	def periodicReconnectHelper(self):
+		while true:
+			self.autosave()
+			time.sleep(60*60*12)
+			self.jump_server()
+        def periodicReconnect(self):
+		t=threading.Thread(target=self.periodicReconnectHelper)
+		t.start()
 	def save_helper(self):
 		print("Autosaving markov...")
 		markov.save()
